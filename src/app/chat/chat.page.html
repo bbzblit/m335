@@ -7,5 +7,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <h1>Hello World</h1>
+  <div>
+    <app-message [isSender]="true" message="Hey"></app-message>
+    <app-message [isSender]="false" message="Hi"></app-message>
+    <app-message [isSender]="true" message="How are you?"></app-message>
+  </div>
 </ion-content>
