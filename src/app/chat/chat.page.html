@@ -8,8 +8,6 @@
 
 <ion-content [fullscreen]="true">
   <div>
-    <app-message [isSender]="true" message="Hey"></app-message>
-    <app-message [isSender]="false" message="Hi"></app-message>
-    <app-message [isSender]="true" message="How are you?"></app-message>
+    <app-message *ngFor="let message of messages" [isSender]="true" [message]="message.text"></app-message>
   </div>
 </ion-content>
