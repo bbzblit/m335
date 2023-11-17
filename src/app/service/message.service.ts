@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {SupabaseClient, createClient} from '@supabase/supabase-js';
+import { SupabaseClient, createClient } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
 import { Message } from '../model/message.model';
 import { of } from 'rxjs';
@@ -10,19 +10,29 @@ import { of } from 'rxjs';
 })
 export class MessageService {
 
-  private client: SupabaseClient; 
+  private client: SupabaseClient;
 
-  constructor() { 
+  constructor() {
     this.client = createClient(environment.supabase.domain, environment.supabase.key);
   }
 
   async getMessages(chat: number) {
-    let {data, error} =  await this.client
-    .from('message')
-    .select('*')
-    .eq('chat', chat);
+    let { data, error } = await this.client
+      .from('message')
+      .select('*')
+      .eq('chat', chat);
 
     return data
+  }
+
+  subscribeMessages(chat: number, callback: (payload: any) => void) {
+    return this.client.channel('custom-all-channel')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'message' },
+        callback
+      )
+      .subscribe()
   }
 
 }
