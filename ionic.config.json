@@ -1,0 +1,7 @@
+{
+  "name": "Taps",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
