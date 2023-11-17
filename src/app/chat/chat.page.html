@@ -7,7 +7,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div>
-    <app-message *ngFor="let message of messages" [isSender]="true" [message]="message.text"></app-message>
+  <div *ngIf="!currentUser" class="flex items-center flex-col h-full justify-center">
+    <div class="w-3/4">
+      <h1 class="pr-[25%] pb-2">Please enter your Username to continue</h1>
+      <ion-input label="Your Username" #username placeholder="Evan" type="text" fill="outline" labelPlacement="floating"></ion-input>
+      <ion-button class="mt-4" expand="block" (click)="login(username.value!+'') " [disabled]="!username.value">Login</ion-button>
+    </div>
+
+  </div>
+  <div *ngIf="currentUser">
+    <app-message *ngFor="let message of messages" [isSender]="message.author == currentUser.id" [message]="message.text"></app-message>
   </div>
 </ion-content>
