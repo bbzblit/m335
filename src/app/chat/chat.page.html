@@ -1,21 +1,22 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      TaPs
-    </ion-title>
-  </ion-toolbar>
+<ion-header [translucent]="true" class="w-full h-12">
+  <div class="flex justify-between h-full items-center flex-row px-4">
+    <ion-text class=" text-white">TaPs</ion-text>
+    <ion-button *ngIf="currentUser" (click)="logout()" fill="clear" class="text-white">Logout</ion-button>
+  </div>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div *ngIf="!currentUser" class="flex items-center flex-col h-full justify-center">
     <div class="w-3/4">
       <h1 class="pr-[25%] pb-2">Please enter your Username to continue</h1>
-      <ion-input label="Your Username" #username placeholder="Evan" type="text" fill="outline" labelPlacement="floating"></ion-input>
-      <ion-button class="mt-4" expand="block" (click)="login(username.value!+'') " [disabled]="!username.value">Login</ion-button>
+      <ion-input label="Your Username" #username placeholder="Evan" type="text" fill="outline"
+        labelPlacement="floating"></ion-input>
+      <ion-button class="mt-4" expand="block" (click)="login(username.value!+'') "
+        [disabled]="!username.value">Login</ion-button>
     </div>
 
   </div>
-  <div *ngIf="currentUser">
-    <app-message *ngFor="let message of messages" [isSender]="message.author == currentUser.id" [message]="message.text"></app-message>
+  <div *ngIf="currentUser" class="flex flex-col h-full">
+    <app-chat-selector [currentUser]="currentUser" [chats]="chats"></app-chat-selector>
   </div>
 </ion-content>

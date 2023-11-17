@@ -1,0 +1,13 @@
+<ion-list class="p-4">
+  <ion-item *ngFor="let chat of chats" (click)="openChat(chat)">
+    <ion-avatar item-start class="min-w-[2.25rem]">
+      <div class="h-full w-full rounded-full bg-gray-700 flex items-center justify-center">
+        <h1>{{(chat.user_a.id == currentUser?.id ? chat.user_b.username : chat.user_a.username).charAt(0)}}</h1>
+      </div>
+    </ion-avatar>
+    <div class="mx-4 w-full flex justify-between flex-row items-center">
+      <h2>{{chat.user_a.id == currentUser?.id ? chat.user_b.username : chat.user_a.username}}</h2>
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </div>
+  </ion-item>
+</ion-list>
