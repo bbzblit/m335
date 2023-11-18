@@ -1,0 +1,8 @@
+.button-transparent {
+    --background: transparentize(100);
+    --background-activated: transparentize(100);  
+    --background-focused: transparentize(100);
+    //--border-radius: 100%;
+
+    transform: scale(2);
+  }

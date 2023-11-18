@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '@supabase/supabase-js';
 import { Chat } from 'src/app/model/chat.model';
 import { UserModel } from 'src/app/model/user.model';
@@ -13,12 +14,12 @@ export class ChatSelectorComponent  implements OnInit {
   @Input() chats: Array<Chat> = [];
   @Input() currentUser: UserModel | undefined;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
 
   openChat(chat: Chat) {
-    console.log(chat);
+    this.router.navigate(['/chat', chat.id]);
   }
 
 }

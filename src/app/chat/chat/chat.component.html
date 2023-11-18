@@ -1,3 +1,24 @@
-<div>
-  
-</div>
+<ion-header class="h-12 flex items-center">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title class="h-8">Chat with {{opositeUser}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <app-message *ngFor="let message of messages" [isSender]="message.author.username == username"
+        [message]="message.text || ''"></app-message>
+</ion-content>
+<ion-toolbar>
+    <div class="flex items-center">
+        <ion-button color="transparent" class="p-0">
+            <ion-icon name="camera"></ion-icon>
+        </ion-button>
+
+            <ion-input class="w-full inline-block" [(ngModel)]="message" placeholder="Type a message..." fill="outlined"></ion-input>
+        <ion-button (click)="sendMessage()" color="transparent" class="p-0">
+            <ion-icon name="send"></ion-icon>
+        </ion-button>
+    </div>
+</ion-toolbar>

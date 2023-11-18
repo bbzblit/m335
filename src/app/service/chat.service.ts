@@ -21,4 +21,13 @@ export class ChatService {
     return data
   }
 
+  public async getChatById(id: number){
+    let {data} = await this.client.from('chat').select('*,user_a(*),user_b(*)').eq('id',id);
+
+    if(data && data.length > 0){
+      return data[0]
+    }
+    return null
+  }
+
 }

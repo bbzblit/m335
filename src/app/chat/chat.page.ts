@@ -23,36 +23,20 @@ export class ChatPage implements OnInit {
   public currentUser: UserModel | undefined;
   public chats: Array<Chat> = [];
 
-
-  private messageSubscription$: RealtimeChannel | undefined;
-
   constructor(
     private messageService: MessageService,
     private userService: UserService,
     private storageService: StorageService,
-    private broadcastService: BrodcastService,
-    private cd: ChangeDetectorRef,
     private chatService: ChatService) { }
 
 
-  messageChange(payload: any) {
-    if (payload.eventType === 'INSERT') {
-      this.messages.push(payload.new);
-    }
-    else if (payload.eventType === 'UPDATE') {
-      const index = this.messages.findIndex((message) => message.id === payload.new.id);
-      this.messages[index] = payload.new;
-    }
-    else if (payload.eventType === 'DELETE') {
-      const index = this.messages.findIndex((message) => message.id === payload.old.id);
-      this.messages.splice(index, 1);
-    }
-  }
 
   login(username: string) {
     this.userService.login(username).then((user) => {
       if (user) {
         this.currentUser = user;
+        this.storageService.set('userId', user.id.toString());
+        console.log(this.currentUser);
         this.chatService.getAllChatsOfUser(user.id).then((data) => {
           if (data) {
             this.chats = data;
@@ -70,19 +54,11 @@ export class ChatPage implements OnInit {
       }
     });
 
-    this.messageSubscription$ = this.messageService.subscribeMessages(1, (payload) => this.messageChange(payload));
-
     this.storageService.get('username').then((username) => {
       if (username) {
         this.login(username);
       }
     });
   }
-
-  logout() {
-    this.currentUser = undefined;
-  }
-
-
 
 }
