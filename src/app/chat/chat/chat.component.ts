@@ -4,7 +4,9 @@ import { RealtimeChannel, Subscription, User } from '@supabase/supabase-js';
 import { Chat } from 'src/app/model/chat.model';
 import { Message } from 'src/app/model/message.model';
 import { BrodcastService } from 'src/app/service/brodcast.service';
+import { CameraService } from 'src/app/service/camera.service';
 import { ChatService } from 'src/app/service/chat.service';
+import { FilesystemService } from 'src/app/service/filesystem.service';
 import { MessageService } from 'src/app/service/message.service';
 import { StorageService } from 'src/app/service/storage.service';
 import { UserService } from 'src/app/service/user.service';
@@ -32,6 +34,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private activatedRoute: ActivatedRoute,
     private brodcastService: BrodcastService,
+    private cameraService: CameraService,
+    private fileSystem: FilesystemService,
   ) { }
 
   ngOnInit() {
@@ -45,6 +49,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.messageService.getMessages(+id).then((data) => {
       if (data) {
+
         this.messages = data;
       }
     });
@@ -116,4 +121,20 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.message = '';
   }
 
+  initSendPhoto() {
+    this.cameraService.takePicture().then((data) => {
+      if (data) {
+        this.sendPhoto(data);
+      }
+    });
+  }
+
+  sendPhoto(path: string) {
+    this.fileSystem.readFile(path).then((data) => {
+      if (data) {
+        console.log("Sending image");
+        this.messageService.sendImageMessage(this.currentChat?.id || 0, this.userId, data);
+      }
+    });
+  }
 }

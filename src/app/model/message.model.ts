@@ -7,4 +7,5 @@ export interface Message{
     text: string;
     author: UserModel;
     chat: Chat;
+    isImage: boolean;
 }

@@ -1,9 +1,8 @@
+import { IMAGE_CONFIG } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { SupabaseClient, User, createClient } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
-import { Message } from '../model/message.model';
-import { of } from 'rxjs';
-
+import { decode } from 'base64-arraybuffer'
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +13,16 @@ export class MessageService {
 
   constructor() {
     this.client = createClient(environment.supabase.domain, environment.supabase.key);
+  }
+
+  private uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      // eslint-disable-next-line one-var
+      var r = (Math.random() * 16) | 0,
+        // eslint-disable-next-line one-var
+        v = c == 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 
   async getMessages(chat: number) {
@@ -57,5 +66,31 @@ export class MessageService {
 
     return data
   }
+
+  async sendImageMessage(chatId: number, userId: number, fileContent: any) {
+    let id = this.uuidv4();
+    let file = `public/${id}.png`;
+    await this.client
+      .storage
+      .from('images')
+      .upload(file, decode(fileContent.data), {
+        contentType: 'image/png'
+      });
+
+    let { data: url } = this.client
+      .storage
+      .from('images')
+      .getPublicUrl(file);
+
+    let { data, error } = await this.client.from('message').insert({
+      chat: chatId,
+      author: userId,
+      text: url.publicUrl,
+      isImage: true
+    });
+
+    return data
+  }
+
 
 }

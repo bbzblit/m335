@@ -8,11 +8,11 @@
 </ion-header>
 <ion-content>
     <app-message *ngFor="let message of messages" [isSender]="message.author.username == username"
-        [message]="message.text || ''"></app-message>
+        [message]="message || ''"></app-message>
 </ion-content>
 <ion-toolbar>
     <div class="flex items-center">
-        <ion-button color="transparent" class="p-0">
+        <ion-button (click)="initSendPhoto()" color="transparent" class="p-0">
             <ion-icon name="camera"></ion-icon>
         </ion-button>
 
