@@ -8,6 +8,7 @@ import { CameraService } from 'src/app/service/camera.service';
 import { ChatService } from 'src/app/service/chat.service';
 import { ClipboardService } from 'src/app/service/clipboard.service';
 import { FilesystemService } from 'src/app/service/filesystem.service';
+import { HapticsService } from 'src/app/service/haptics.service';
 import { MessageService } from 'src/app/service/message.service';
 import { StorageService } from 'src/app/service/storage.service';
 import { UserService } from 'src/app/service/user.service';
@@ -40,6 +41,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private cameraService: CameraService,
     private fileSystem: FilesystemService,
     private clipboardService: ClipboardService,
+    private happicsService: HapticsService,
   ) { }
 
   ngOnInit() {
@@ -147,8 +149,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   selectMessage(message: Message) {
+    this.happicsService.vibrate();
     this.selectedMessage = message;
-    console.log(this.selectedMessage);
+
   }
 
   deleteMessage() {
