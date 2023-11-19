@@ -21,7 +21,7 @@ export class ChatPage implements OnInit {
 
   public messages: Array<Message> = [];
   public currentUser: UserModel | undefined;
-  public chats: Array<Chat> = [];
+
 
   constructor(
     private messageService: MessageService,
@@ -36,12 +36,6 @@ export class ChatPage implements OnInit {
       if (user) {
         this.currentUser = user;
         this.storageService.set('userId', user.id.toString());
-        console.log(this.currentUser);
-        this.chatService.getAllChatsOfUser(user.id).then((data) => {
-          if (data) {
-            this.chats = data;
-          }
-        });
       }
     });
     this.storageService.set('username', username); 

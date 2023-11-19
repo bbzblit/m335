@@ -1,6 +1,14 @@
-<ion-list class="p-4">
+<ion-list-header>
+  <div class="w-full flex justify-end">
+    <h1 class="mr-auto text-center h-fit my-auto">Your Chats</h1>
+    <ion-button id="open-modal">
+      <ion-icon class="scale-150" name="add-circle-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-list-header>
+<ion-list class="p-1">
   <ion-item *ngFor="let chat of chats" (click)="openChat(chat)">
-    <ion-avatar item-start class="min-w-[2.25rem]">
+    <ion-avatar item-start class="min-w-[2.25rem] max-h-[2.25rem]">
       <div class="h-full w-full rounded-full bg-gray-700 flex items-center justify-center">
         <h1>{{(chat.user_a.id == currentUser?.id ? chat.user_b.username : chat.user_a.username).charAt(0)}}</h1>
       </div>
@@ -10,4 +18,21 @@
       <ion-icon name="chevron-forward-outline"></ion-icon>
     </div>
   </ion-item>
+
+
+  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+    <ng-template>
+      <ion-content>
+        <ion-searchbar [(ngModel)]="username" placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
+        <ion-list>
+          <ion-item (click)="addNewChat(user)" *ngFor="let user of users">
+            <ion-label class="relative">
+              <h2>{{user.username}}</h2>
+              <ion-icon class="absolute right-0 top-0" name="chevron-forward-outline"></ion-icon>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-list>

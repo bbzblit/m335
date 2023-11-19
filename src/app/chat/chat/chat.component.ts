@@ -64,12 +64,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatService.getChatById(+id).then((data) => {
       if (data) {
         this.currentChat = data;
-
-        if (this.currentChat?.user_a.username === this.username) {
-          this.opositeUser = this.currentChat.user_b.username;
-        } else {
-          this.opositeUser = this.currentChat?.user_a.username || "";
-        }
+        this.syncUser();
       }
     });
     this.messageSubscription$ = this.messageService.subscribeMessages(1, (payload) => this.messageChange(payload));
@@ -80,6 +75,14 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.brodcastService.broadcast('showTabs', true);
     this.messageSubscription$?.unsubscribe();
+  }
+
+  syncUser() {
+    if (this.currentChat?.user_a.username === this.username) {
+      this.opositeUser = this.currentChat.user_b.username;
+    } else {
+      this.opositeUser = this.currentChat?.user_a.username || "";
+    }
   }
 
   messageChange(payload: any) {

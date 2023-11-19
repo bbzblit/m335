@@ -41,4 +41,12 @@ export class UserService {
     }
   }
 
+  public async findUserByUsername(username: string) {
+    let { data, error } = await this.client
+      .from('user')
+      .select('*')
+      .ilike('username', '%' + username.toLowerCase() + '%')
+      .limit(10)
+    return data;
+  }
 }
