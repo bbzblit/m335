@@ -21,7 +21,7 @@
                     <ion-item (click)="copyMessage()">
                         <ion-label>Copy</ion-label>
                     </ion-item>
-                    <ion-item *ngIf="userId == selectedMessage?.author?.id || selectedMessage?.isImage" (click)="inputField.setFocus();editMessage()">
+                    <ion-item *ngIf="userId == selectedMessage?.author?.id && !selectedMessage?.isImage" (click)="inputField.setFocus();editMessage()">
                         <ion-label>Edit</ion-label>
                     </ion-item>
                 </ion-list>
