@@ -92,5 +92,21 @@ export class MessageService {
     return data
   }
 
+  async deleteMessage(message: any) {
+    let { data, error } = await this.client
+      .from('message')
+      .delete()
+      .eq('id', message.id);
 
+    return data
+  }
+
+  async editMessage(id: number, text: string) {
+    let { data, error } = await this.client
+      .from('message')
+      .update({ text: text })
+      .eq('id', id);
+
+    return data
+  }
 }

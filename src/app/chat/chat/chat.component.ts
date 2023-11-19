@@ -6,6 +6,7 @@ import { Message } from 'src/app/model/message.model';
 import { BrodcastService } from 'src/app/service/brodcast.service';
 import { CameraService } from 'src/app/service/camera.service';
 import { ChatService } from 'src/app/service/chat.service';
+import { ClipboardService } from 'src/app/service/clipboard.service';
 import { FilesystemService } from 'src/app/service/filesystem.service';
 import { MessageService } from 'src/app/service/message.service';
 import { StorageService } from 'src/app/service/storage.service';
@@ -24,6 +25,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public currentChat: Chat | undefined = undefined;
   public opositeUser: string = '';
   public message: string = '';
+  public isEditing: boolean = false;
 
   public selectedMessage: Message | undefined = undefined;
 
@@ -37,6 +39,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private brodcastService: BrodcastService,
     private cameraService: CameraService,
     private fileSystem: FilesystemService,
+    private clipboardService: ClipboardService,
   ) { }
 
   ngOnInit() {
@@ -108,6 +111,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 
   sendMessage() {
+    if (this.isEditing) {
+      this.sendEditedMessage();
+      return;
+    }
     if (this.message === '' || this.currentChat === undefined) {
       return;
     }
@@ -118,7 +125,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       text: this.message,
     };
 
-    this.messageService.sendMessage(newMessage).then((data) => {console.log(data)});
+    this.messageService.sendMessage(newMessage).then((data) => { console.log(data) });
     this.message = '';
   }
 
@@ -146,19 +153,44 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   deleteMessage() {
     if (this.selectedMessage) {
-    
+      this.messageService.deleteMessage(this.selectedMessage);
+      this.selectedMessage = undefined;
     }
   }
 
   copyMessage() {
     if (this.selectedMessage) {
-
+      this.clipboardService.writeText(this.selectedMessage.text);
+      this.selectedMessage = undefined;
     }
   }
 
   editMessage() {
     if (this.selectedMessage) {
-
+      this.message = this.selectedMessage.text;
+      this.isEditing = true;
     }
+  }
+
+  sendEditedMessage() {
+    if (this.selectedMessage) {
+      this.messageService.editMessage(this.selectedMessage.id, this.message).then((data) => {
+        this.message = '';
+        this.isEditing = false;
+        this.selectedMessage = undefined;
+      });
+    }
+  }
+
+  closeDialog() {
+    if (!this.isEditing) {
+      this.selectedMessage = undefined;
+    }
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+    this.message = '';
+    this.selectedMessage = undefined;
   }
 }
