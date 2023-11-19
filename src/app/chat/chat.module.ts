@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Injectable, NgModule } from '@angular/core';
+import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 import { ChatRoutingModule } from './chat-routing.module';
 import { ChatPage } from './chat.page';
@@ -8,6 +8,7 @@ import { IonHeader, IonicModule } from '@ionic/angular';
 import { MessageComponent } from './message/message.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatSelectorComponent } from './chat-selector/chat-selector.component';
+import { HAMMER_GESTURE_CONFIG,  HammerGestureConfig,  HammerModule } from '@angular/platform-browser';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { ChatSelectorComponent } from './chat-selector/chat-selector.component';
     ChatRoutingModule,
     FormsModule,
     IonicModule,
+    HammerModule
   ]
 })
 export class ChatModule { }

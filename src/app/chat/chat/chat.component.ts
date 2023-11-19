@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public opositeUser: string = '';
   public message: string = '';
 
+  public selectedMessage: Message | undefined = undefined;
 
   private messageSubscription$: RealtimeChannel | undefined;
 
@@ -136,5 +137,28 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.messageService.sendImageMessage(this.currentChat?.id || 0, this.userId, data);
       }
     });
+  }
+
+  selectMessage(message: Message) {
+    this.selectedMessage = message;
+    console.log(this.selectedMessage);
+  }
+
+  deleteMessage() {
+    if (this.selectedMessage) {
+    
+    }
+  }
+
+  copyMessage() {
+    if (this.selectedMessage) {
+
+    }
+  }
+
+  editMessage() {
+    if (this.selectedMessage) {
+
+    }
   }
 }
