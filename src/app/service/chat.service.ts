@@ -58,4 +58,9 @@ export class ChatService {
     return channels;
   }
 
+  public async deleteChat(id: number) {
+    let { data } = await this.client.from('chat').delete().eq('id', id);
+    return data;
+  }
+
 }

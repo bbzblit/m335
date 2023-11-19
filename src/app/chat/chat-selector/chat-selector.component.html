@@ -7,23 +7,34 @@
   </div>
 </ion-list-header>
 <ion-list class="p-1">
-  <ion-item *ngFor="let chat of chats" (click)="openChat(chat)">
-    <ion-avatar item-start class="min-w-[2.25rem] max-h-[2.25rem]">
-      <div class="h-full w-full rounded-full bg-gray-700 flex items-center justify-center">
-        <h1>{{(chat.user_a.id == currentUser?.id ? chat.user_b.username : chat.user_a.username).charAt(0)}}</h1>
+  <ion-item-sliding *ngFor="let chat of chats">
+    <ion-item (click)="openChat(chat)">
+      <ion-avatar item-start class="min-w-[2.25rem] max-h-[2.25rem]">
+        <div class="h-full w-full rounded-full bg-gray-700 flex items-center justify-center">
+          <h1>{{(chat.user_a.id == currentUser?.id ? chat.user_b.username : chat.user_a.username).charAt(0)}}</h1>
+        </div>
+      </ion-avatar>
+      <div class="mx-4 w-full flex justify-between flex-row items-center">
+        <h2>{{chat.user_a.id == currentUser?.id ? chat.user_b.username : chat.user_a.username}}</h2>
+        <ion-icon name="chevron-forward-outline"></ion-icon>
       </div>
-    </ion-avatar>
-    <div class="mx-4 w-full flex justify-between flex-row items-center">
-      <h2>{{chat.user_a.id == currentUser?.id ? chat.user_b.username : chat.user_a.username}}</h2>
-      <ion-icon name="chevron-forward-outline"></ion-icon>
-    </div>
-  </ion-item>
+    </ion-item>
+    <ion-item-options slot="end">
+      <ion-item-option  (click)="initDeleteChat(chat)" color="danger" expandable="true">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
 
+  <ion-alert [isOpen]="selectedChat != undefined" header="Delete Chat" subHeader="This action is irreversible."
+  [message]="'Are you sure that you want to delete the chat with ' + this.selectedChat?.username" [buttons]="['cancel', 'confirm']" (didDismiss)="deleteConfirmationCallback($event)" >
+</ion-alert>
 
   <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]">
     <ng-template>
       <ion-content>
-        <ion-searchbar [(ngModel)]="username" placeholder="Search" (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="username" placeholder="Search"
+          (click)="modal.setCurrentBreakpoint(0.75)"></ion-searchbar>
         <ion-list>
           <ion-item (click)="addNewChat(user)" *ngFor="let user of users">
             <ion-label class="relative">

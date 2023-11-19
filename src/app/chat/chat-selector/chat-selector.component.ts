@@ -19,6 +19,8 @@ export class ChatSelectorComponent implements OnInit, OnDestroy {
   public users: Array<UserModel> = [];
   public chats: Array<Chat> = [];
 
+  public selectedChat: {chat: Chat, username: string} | undefined;
+
   private chatSubscription$: RealtimeChannel | undefined;
 
   constructor(private router: Router, private userService: UserService, private chatService: ChatService) { }
@@ -74,5 +76,19 @@ export class ChatSelectorComponent implements OnInit, OnDestroy {
     });
   }
 
+  initDeleteChat(chat: Chat) {
+    this.selectedChat = {
+      chat: chat,
+      username: chat.user_a.id === this.currentUser!.id ? chat.user_b.username : chat.user_a.username
+    };
+  }
+
+  deleteConfirmationCallback(action: any) {
+    if(action.detail.role !== 'cancel'){
+      this.chatService.deleteChat(this.selectedChat!.chat.id);
+    } 
+    this.selectedChat = undefined;
+
+  }
 
 }
