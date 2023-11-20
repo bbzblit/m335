@@ -1,5 +1,5 @@
 import { HtmlParser } from '@angular/compiler';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Message } from 'src/app/model/message.model';
 import { BrowserService } from 'src/app/service/browser.service';
 
@@ -12,6 +12,8 @@ export class MessageComponent  implements OnInit {
 
   @Input() isSender: boolean = false;
   @Input() message: Message  | undefined = undefined;
+
+  @Output() longPress: EventEmitter<void> = new EventEmitter();
 
   public text: Array<string> = [];
 

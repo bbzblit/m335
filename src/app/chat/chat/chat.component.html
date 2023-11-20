@@ -15,7 +15,7 @@
         <app-skeleton-message [version]="0" [isSender]="false"></app-skeleton-message>
         <app-skeleton-message [version]="1" [isSender]="true"></app-skeleton-message>
     </div>
-    <app-message (press)="selectMessage(message)" *ngFor="let message of messages"
+    <app-message (longPress)="selectMessage(message)" *ngFor="let message of messages"
         [isSender]="message.author.username == username" [message]="message || ''"></app-message>
 
     <ion-modal [isOpen]="selectedMessage !== undefined && !isEditing" [initialBreakpoint]="0.25"

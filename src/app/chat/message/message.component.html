@@ -1,5 +1,5 @@
 <div [ngClass]="{'mirror': !isSender}" class="flex justify-end mx-4">
-  <div class="relative w-[max(10rem,20%)] m-4 p-2 py-3 rounded-xl" [ngClass]="{'bg-blue-400': isSender, 'bg-gray-700': !isSender}">
+  <div (press)="longPress.emit()" class="relative w-[max(10rem,20%)] m-4 p-2 py-3 rounded-xl" [ngClass]="{'bg-blue-400': isSender, 'bg-gray-700': !isSender}">
     
     <h1 *ngIf="!message?.isImage" [ngClass]="{'mirror': !isSender}" class="text-white">
       <span *ngFor="let textPart of text" (click)="open(textPart)" [ngClass]="{'hyerlink': textPart.startsWith('https://')}" >
