@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RealtimeChannel, Subscription, User } from '@supabase/supabase-js';
 import { Chat } from 'src/app/model/chat.model';
 import { Message } from 'src/app/model/message.model';
@@ -42,6 +42,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private fileSystem: FilesystemService,
     private clipboardService: ClipboardService,
     private happicsService: HapticsService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -195,5 +196,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.isEditing = false;
     this.message = '';
     this.selectedMessage = undefined;
+  }
+
+  backToChatOverview(){
+    this.router.navigate(['tabs', 'chat']);
   }
 }

@@ -6,7 +6,7 @@
         <ion-title *ngIf="opositeUser" class="h-8">Chat with {{opositeUser}}</ion-title>
     </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content (swiperight)="backToChatOverview()">
     <app-message (press)="selectMessage(message)" *ngFor="let message of messages"
         [isSender]="message.author.username == username" [message]="message || ''"></app-message>
 
