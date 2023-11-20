@@ -27,6 +27,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public opositeUser: string = '';
   public message: string = '';
   public isEditing: boolean = false;
+  public finishedLoading: boolean = false;
 
   public selectedMessage: Message | undefined = undefined;
 
@@ -58,6 +59,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (data) {
 
         this.messages = data;
+        this.finishedLoading = true;
       }
     });
 

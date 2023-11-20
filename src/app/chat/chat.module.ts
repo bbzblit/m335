@@ -9,16 +9,17 @@ import { MessageComponent } from './message/message.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatSelectorComponent } from './chat-selector/chat-selector.component';
 import { HAMMER_GESTURE_CONFIG,  HammerGestureConfig,  HammerModule } from '@angular/platform-browser';
+import { SkeletonMessageComponent } from './sceleton-message/skeleton-message.component';
 
 
 @NgModule({
-  declarations: [ChatPage, MessageComponent, ChatComponent, ChatSelectorComponent],
+  declarations: [ChatPage, MessageComponent, ChatComponent, ChatSelectorComponent, SkeletonMessageComponent],
   imports: [
     CommonModule,
     ChatRoutingModule,
     FormsModule,
     IonicModule,
-    HammerModule
+    HammerModule,
   ]
 })
 export class ChatModule { }
