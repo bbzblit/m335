@@ -197,8 +197,4 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.message = '';
     this.selectedMessage = undefined;
   }
-
-  backToChatOverview(){
-    this.router.navigate(['tabs', 'chat']);
-  }
 }
