@@ -1,5 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 import { RealtimeChannel, Subscription, User } from '@supabase/supabase-js';
 import { Chat } from 'src/app/model/chat.model';
 import { Message } from 'src/app/model/message.model';
@@ -28,6 +29,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   public message: string = '';
   public isEditing: boolean = false;
   public finishedLoading: boolean = false;
+
+  @ViewChild("content") content: IonContent | undefined;
+
 
   public selectedMessage: Message | undefined = undefined;
 
@@ -103,6 +107,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     console.log(payload);
     if (payload.eventType === 'INSERT') {
       this.messages.push(payload.new);
+      this.scrollToBottom();
     }
     else if (payload.eventType === 'UPDATE') {
       const index = this.messages.findIndex((message) => message.id === payload.new.id);
@@ -198,5 +203,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.isEditing = false;
     this.message = '';
     this.selectedMessage = undefined;
+  }
+
+  scrollToBottom() {
+    if (!this.content){
+      console.log("No eol");
+      return
+    }
+    this.content.scrollToBottom(300);
   }
 }

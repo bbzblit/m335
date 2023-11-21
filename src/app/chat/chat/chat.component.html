@@ -7,7 +7,7 @@
         <ion-progress-bar *ngIf="!opositeUser || !finishedLoading" type="indeterminate"></ion-progress-bar>
     </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content #content class="overflow-scroll">
     <div *ngIf="!finishedLoading">
         <app-skeleton-message [version]="0" [isSender]="true"></app-skeleton-message>
         <app-skeleton-message [version]="1" [isSender]="false"></app-skeleton-message>
@@ -15,9 +15,8 @@
         <app-skeleton-message [version]="0" [isSender]="false"></app-skeleton-message>
         <app-skeleton-message [version]="1" [isSender]="true"></app-skeleton-message>
     </div>
-    <app-message (longPress)="selectMessage(message)" *ngFor="let message of messages"
+        <app-message (longPress)="selectMessage(message)" *ngFor="let message of messages"
         [isSender]="message.author.username == username" [message]="message || ''"></app-message>
-
     <ion-modal [isOpen]="selectedMessage !== undefined && !isEditing" [initialBreakpoint]="0.25"
         [breakpoints]="[0, 0.25, 0.5, 0.75]" handleBehavior="cycle" (didDismiss)="closeDialog()">
         <ng-template>
