@@ -8,6 +8,14 @@
     </ion-toolbar>
 </ion-header>
 <ion-content #content class="overflow-scroll">
+    <div class="bg-slate-700 rounded-2xl w-80 h-[9rem] mx-auto mt-8 mb-4 p-4">
+        <div class="flex justify-center">
+            <ion-icon name="lock-closed" class="text-yellow-400 inline-block mr-2"></ion-icon>    
+            <h3 class="text-center" class="text-yellow-400 inline">This chat is encrypted</h3>
+        </div>
+            <p class="text-center" class="text-yellow-400 text-center">Messages you send to this chat are secured with end-to-end between the server and your smartphone.</p>
+            <p class="text-yellow-400 text-center">We would never sell your data<span class="text-xs align-text-top">*</span></p>
+        </div>
     <div *ngIf="!finishedLoading">
         <app-skeleton-message [version]="0" [isSender]="true"></app-skeleton-message>
         <app-skeleton-message [version]="1" [isSender]="false"></app-skeleton-message>
@@ -15,8 +23,10 @@
         <app-skeleton-message [version]="0" [isSender]="false"></app-skeleton-message>
         <app-skeleton-message [version]="1" [isSender]="true"></app-skeleton-message>
     </div>
+    <div *ngIf="username && messages">
         <app-message (longPress)="selectMessage(message)" *ngFor="let message of messages"
         [isSender]="message.author.username == username" [message]="message || ''"></app-message>
+    </div>
     <ion-modal [isOpen]="selectedMessage !== undefined && !isEditing" [initialBreakpoint]="0.25"
         [breakpoints]="[0, 0.25, 0.5, 0.75]" handleBehavior="cycle" (didDismiss)="closeDialog()">
         <ng-template>
