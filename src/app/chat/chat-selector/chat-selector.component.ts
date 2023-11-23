@@ -1,5 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { Chat } from 'src/app/model/chat.model';
 import { UserModel } from 'src/app/model/user.model';
@@ -14,6 +15,8 @@ import { UserService } from 'src/app/service/user.service';
 export class ChatSelectorComponent implements OnInit, OnDestroy {
 
   @Input() currentUser: UserModel | undefined;
+
+  @ViewChild("modal") addChatModelRef: IonModal | undefined;
 
   public _username: string = '';
   public users: Array<UserModel> = [];
@@ -69,11 +72,20 @@ export class ChatSelectorComponent implements OnInit, OnDestroy {
   }
 
   addNewChat(user: UserModel) {
-    this.chatService.createChat(this.currentUser!.id, user.id).then((data) => {
+    this.chatService.findChatByUsers(this.currentUser!.id, user.id).then((data) => { 
       if(data){
+        this.addChatModelRef?.dismiss();
         this.router.navigate(['/chat', data.id]);
+      } else {
+        this.chatService.createChat(this.currentUser!.id, user.id).then((data) => {
+          if(data){
+            this.addChatModelRef?.dismiss();
+            this.router.navigate(['/chat', data.id]);
+          }
+        });
       }
     });
+    
   }
 
   initDeleteChat(chat: Chat) {
@@ -88,7 +100,6 @@ export class ChatSelectorComponent implements OnInit, OnDestroy {
       this.chatService.deleteChat(this.selectedChat!.chat.id);
     } 
     this.selectedChat = undefined;
-
   }
 
 }

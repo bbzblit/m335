@@ -32,6 +32,11 @@ export class ChatService {
     return data
   }
 
+  public async findChatByUsers(userA: number, userB: number) {
+    let {data} = await this.client.from('chat').select('*,user_a(*),user_b(*)').or("and(user_a.eq." + userA + ",user_b.eq." + userB + "),and(user_a.eq." + userB + ",user_b.eq." + userA + ")").single();
+    return data;
+  }
+
   public subscribeChatsOfUser(userId: number, callback: (data: any) => void) {
 
     const channels = this.client.channel('custom-all-channel')

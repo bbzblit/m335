@@ -1,7 +1,7 @@
 <ion-list-header>
   <div class="w-full flex justify-end">
     <h1 class="mr-auto text-center h-fit my-auto">Your Chats</h1>
-    <ion-button id="open-modal">
+    <ion-button id="init-add-new-chat">
       <ion-icon class="scale-150" name="add-circle-outline"></ion-icon>
     </ion-button>
   </div>
@@ -29,8 +29,7 @@
   <ion-alert [isOpen]="selectedChat != undefined" header="Delete Chat" subHeader="This action is irreversible."
   [message]="'Are you sure that you want to delete the chat with ' + this.selectedChat?.username" [buttons]="['cancel', 'confirm']" (didDismiss)="deleteConfirmationCallback($event)" >
 </ion-alert>
-
-  <ion-modal #modal trigger="open-modal" [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]">
+  <ion-modal #modal trigger="init-add-new-chat" [initialBreakpoint]="0.25" [breakpoints]="[0, 0.25, 0.5, 0.75]">
     <ng-template>
       <ion-content>
         <ion-searchbar [(ngModel)]="username" placeholder="Search"
