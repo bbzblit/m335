@@ -8,9 +8,8 @@ import { UserService } from '../service/user.service';
 import { UserModel } from '../model/user.model';
 import { StorageService } from '../service/storage.service';
 import { BrodcastService } from '../service/brodcast.service';
-import { Chat } from '../model/chat.model';
-import { privateDecrypt } from 'crypto';
 import { ChatService } from '../service/chat.service';
+import { HammerGestureConfig } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chat',

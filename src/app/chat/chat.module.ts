@@ -8,7 +8,7 @@ import { IonHeader, IonicModule } from '@ionic/angular';
 import { MessageComponent } from './message/message.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatSelectorComponent } from './chat-selector/chat-selector.component';
-import { HAMMER_GESTURE_CONFIG,  HammerGestureConfig,  HammerModule } from '@angular/platform-browser';
+import { HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angular/platform-browser';
 import { SkeletonMessageComponent } from './sceleton-message/skeleton-message.component';
 
 
@@ -20,6 +20,6 @@ import { SkeletonMessageComponent } from './sceleton-message/skeleton-message.co
     FormsModule,
     IonicModule,
     HammerModule,
-  ]
+  ],
 })
 export class ChatModule { }
