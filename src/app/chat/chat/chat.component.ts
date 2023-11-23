@@ -28,6 +28,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public message: string = '';
   public isEditing: boolean = false;
   public finishedLoading: boolean = false;
+  public sendingImage: boolean = false;
 
   @ViewChild("content") content: IonContent | undefined;
 
@@ -63,7 +64,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.messages = data;
 
         let imageUrls = this.messages.filter((message) => message.isImage).map((message) => message.text);
-
+        
         this.finishedLoading = true;
         this.scrollToBottom(0);
       }
@@ -150,10 +151,13 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   sendPhoto(path: string, coords: any) {
+    this.sendingImage = true;
+    this.scrollToBottom(0);
     this.fileSystem.readFile(path).then((data) => {
       if (data) {
-        console.log("Sending image");
-        this.messageService.sendImageMessage(this.currentChat?.id || 0, this.userId, data, coords);
+        this.messageService.sendImageMessage(this.currentChat?.id || 0, this.userId, data, coords).then(() => {
+          this.sendingImage = false;
+        });
       }
     });
   }
