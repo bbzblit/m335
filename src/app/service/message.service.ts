@@ -67,7 +67,7 @@ export class MessageService {
     return data
   }
 
-  async sendImageMessage(chatId: number, userId: number, fileContent: any) {
+  async sendImageMessage(chatId: number, userId: number, fileContent: any, coords: any) {
     let id = this.uuidv4();
     let file = `public/${id}.png`;
     await this.client
@@ -82,14 +82,33 @@ export class MessageService {
       .from('images')
       .getPublicUrl(file);
 
+
+    if (coords) {
+      let { data: location } = await this.client.rpc('nearest', {
+        lat: coords.latitude,
+        long: coords.longitude
+      }).limit(1).single();
+
+      let { data, error } = await this.client.from('message').insert({
+        chat: chatId,
+        author: userId,
+        text: url.publicUrl,
+        isImage: true,
+        location: (location as any)?.name || null
+      });
+
+      return data
+    }
+    
     let { data, error } = await this.client.from('message').insert({
       chat: chatId,
       author: userId,
       text: url.publicUrl,
-      isImage: true
+      isImage: true,
     });
 
     return data
+
   }
 
   async deleteMessage(message: any) {

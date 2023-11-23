@@ -61,6 +61,9 @@ export class ChatComponent implements OnInit, OnDestroy {
       if (data) {
 
         this.messages = data;
+
+        let imageUrls = this.messages.filter((message) => message.isImage).map((message) => message.text);
+
         this.finishedLoading = true;
         this.scrollToBottom(0);
       }
@@ -139,18 +142,18 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   initSendPhoto() {
-    this.cameraService.takePicture().then((data) => {
-      if (data) {
-        this.sendPhoto(data);
+    this.cameraService.takePicture().then(({img, coords}) => {
+      if (img) {
+        this.sendPhoto(img, coords);
       }
     });
   }
 
-  sendPhoto(path: string) {
+  sendPhoto(path: string, coords: any) {
     this.fileSystem.readFile(path).then((data) => {
       if (data) {
         console.log("Sending image");
-        this.messageService.sendImageMessage(this.currentChat?.id || 0, this.userId, data);
+        this.messageService.sendImageMessage(this.currentChat?.id || 0, this.userId, data, coords);
       }
     });
   }

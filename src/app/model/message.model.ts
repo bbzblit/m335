@@ -8,4 +8,5 @@ export interface Message{
     author: UserModel;
     chat: Chat;
     isImage: boolean;
+    location?: string;
 }

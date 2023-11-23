@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { GeolocationService } from './geolocation.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CameraService {
 
-  constructor() { }
+  constructor(private geolocationService: GeolocationService) { }
 
   public async takePicture(){
     const img = await Camera.getPhoto({
@@ -15,7 +16,12 @@ export class CameraService {
       resultType: CameraResultType.Uri
     });
 
-    return img.path;
+    const coords = await this.geolocationService.getCurrentPosition();
+
+    return {
+      img: img.path,
+      coords: coords
+    };
   }
 
 }
