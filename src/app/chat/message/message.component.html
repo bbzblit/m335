@@ -6,8 +6,11 @@
         {{textPart}}
       </span>
     </h1>
-    <img *ngIf="message?.isImage" [src]="message?.text" class="w-full rounded-xl">
-    <span class="text-sm">{{message?.location}}</span>
+    <div [ngClass]="{'mirror': !isSender}">
+      <img *ngIf="message?.isImage" [src]="message?.text" class="w-full rounded-xl">
+    
+      <span  class="text-sm">{{message?.location}}</span>  
+    </div>
     <div class="absolute rounded right-[-8px] bottom-[-12px] rotate-[130deg] w-3  h-10">
       <div class="h-2 w-2 rounded-full" [ngClass]="{'bg-blue-400': isSender, 'bg-gray-700': !isSender}"></div>
       <div class="h-3 w-3 rounded-full" [ngClass]="{'bg-blue-400': isSender, 'bg-gray-700': !isSender}"></div>
