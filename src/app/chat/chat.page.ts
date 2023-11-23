@@ -20,13 +20,11 @@ export class ChatPage implements OnInit {
 
   public messages: Array<Message> = [];
   public currentUser: UserModel | undefined;
-
+  public isLoading: boolean = false;
 
   constructor(
-    private messageService: MessageService,
     private userService: UserService,
-    private storageService: StorageService,
-    private chatService: ChatService) { }
+    private storageService: StorageService) { }
 
 
 
@@ -36,22 +34,21 @@ export class ChatPage implements OnInit {
         this.currentUser = user;
         this.storageService.set('userId', user.id.toString());
       }
+      this.isLoading = false;
     });
     this.storageService.set('username', username); 
   }
 
   ngOnInit() {
-    this.messageService.getMessages(1).then((data) => {
-      if (data) {
-        this.messages = data;
-      }
-    });
-
+    this.isLoading = true;
+ 
     this.storageService.get('username').then((username) => {
       if (username) {
         this.login(username);
+      } else{
+        this.isLoading = false;
       }
     });
   }
-
+ 
 }

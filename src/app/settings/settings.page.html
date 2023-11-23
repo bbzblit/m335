@@ -3,24 +3,26 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list-header>Settings</ion-list-header>
-  <ion-list class="m-4">
-    <ion-item>
-      <ion-toggle [(ngModel)]="notifications">Enable Notifications</ion-toggle>
-    </ion-item>
-  </ion-list>
-
   <ion-list-header>Browser</ion-list-header>
   <ion-list class="m-4">
     <ion-item>
       <ion-toggle [(ngModel)]="useBrowser">Open Links in Buildin Browser</ion-toggle>
     </ion-item>
     <ion-item>
-      <ion-select label="Browser Color" [(ngModel)]="browserColor" [disabled]="!useBrowser">
+      <ion-select label="Browser Color (IOS Only)" [(ngModel)]="browserColor" [disabled]="!useBrowser">
         <ion-select-option value="#000000">Black</ion-select-option>
         <ion-select-option value="#ffffff">White</ion-select-option>
         <ion-select-option value="#ff0000">Red</ion-select-option>
       </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-list-header *ngIf="username">Chat</ion-list-header>
+  <ion-list *ngIf="username" class="m-4">
+    <ion-item>
+      Username: {{username}}
+    </ion-item>
+    <ion-item>
+      <ion-button (click)="logout()">Logout</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -1,9 +1,10 @@
 <ion-header [translucent]="true" class="h-12 flex items-center">
   <ion-title>TaPs - Chat</ion-title>
+  <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div *ngIf="!currentUser" class="flex items-center flex-col h-full justify-center">
+  <div *ngIf="!currentUser && !isLoading" class="flex items-center flex-col h-full justify-center">
     <div class="w-3/4">
       <h1 class="pr-[25%] pb-2">Please enter your Username to continue</h1>
       <ion-input label="Your Username" #username placeholder="Evan" type="text" fill="outline"

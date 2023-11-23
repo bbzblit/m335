@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../service/storage.service';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-settings',
@@ -7,6 +8,8 @@ import { StorageService } from '../service/storage.service';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+
+  public username: string = "";
 
   private _notifications: boolean = true;
   private _useBrowser: boolean = true;
@@ -32,6 +35,12 @@ export class SettingsPage implements OnInit {
     this.storageService.get('browserColor').then((val) => {
       if (val != null) {
         this._browserColor = val;
+      }
+    });
+
+    this.storageService.get('username').then((val) => {
+      if (val != null) {
+        this.username = val;
       }
     });
   }
@@ -62,6 +71,12 @@ export class SettingsPage implements OnInit {
   set browserColor(value) {
     this._browserColor = value;
     this.storageService.set('browserColor', value);
+  }
+
+  logout() {
+    Preferences.remove({ key: 'username' });
+    Preferences.remove({ key: 'userId' });
+    window.location.reload();
   }
 
 }
