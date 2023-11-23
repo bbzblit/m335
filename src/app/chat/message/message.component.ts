@@ -1,4 +1,3 @@
-import { HtmlParser } from '@angular/compiler';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Message } from 'src/app/model/message.model';
 import { BrowserService } from 'src/app/service/browser.service';

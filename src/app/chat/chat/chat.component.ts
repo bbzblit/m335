@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
-import { RealtimeChannel, Subscription, User } from '@supabase/supabase-js';
+import { RealtimeChannel } from '@supabase/supabase-js';
 import { Chat } from 'src/app/model/chat.model';
 import { Message } from 'src/app/model/message.model';
 import { BrodcastService } from 'src/app/service/brodcast.service';
@@ -12,7 +12,6 @@ import { FilesystemService } from 'src/app/service/filesystem.service';
 import { HapticsService } from 'src/app/service/haptics.service';
 import { MessageService } from 'src/app/service/message.service';
 import { StorageService } from 'src/app/service/storage.service';
-import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-chat',
@@ -47,7 +46,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     private fileSystem: FilesystemService,
     private clipboardService: ClipboardService,
     private happicsService: HapticsService,
-    private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {

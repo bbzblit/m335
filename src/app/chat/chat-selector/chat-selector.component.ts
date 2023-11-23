@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RealtimeChannel, User } from '@supabase/supabase-js';
+import { RealtimeChannel } from '@supabase/supabase-js';
 import { Chat } from 'src/app/model/chat.model';
 import { UserModel } from 'src/app/model/user.model';
 import { ChatService } from 'src/app/service/chat.service';
