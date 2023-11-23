@@ -12,11 +12,19 @@ export class BrowserService {
   ) { }
 
   open(url: string) {
-    this.storeageService.get("browserColor").then((color) => {
-      if(!color){
-        color = "#4287f5";
-      }  
-      Browser.open({ url: url, presentationStyle: 'fullscreen', toolbarColor: "#4287f5", windowName: 'Follow Yanni8 on GitHub' });
+    this.storeageService.get("useBrowser").then((useBrowser) => {
+
+      if (!useBrowser || useBrowser == "false") {
+        window.open(url, "_blank");
+        return;
+      }
+
+      this.storeageService.get("browserColor").then((color) => {
+        if(!color){
+          color = "#4287f5";
+        }  
+        Browser.open({ url: url, presentationStyle: 'fullscreen', toolbarColor: color, windowName: 'Follow Yanni8 on GitHub' });
+      });
     });
   }
 

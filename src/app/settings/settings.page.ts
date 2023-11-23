@@ -8,8 +8,9 @@ import { StorageService } from '../service/storage.service';
 })
 export class SettingsPage implements OnInit {
 
-  public _notifications: boolean = true;
-
+  private _notifications: boolean = true;
+  private _useBrowser: boolean = true;
+  private _browserColor: string = "#000000";
 
   constructor(
     private storageService: StorageService,
@@ -21,6 +22,18 @@ export class SettingsPage implements OnInit {
         this._notifications = val == "true";
       }
     });
+
+    this.storageService.get('useBrowser').then((val) => {
+      if (val != null) {
+        this._useBrowser = val == "true";
+      }
+    });
+
+    this.storageService.get('browserColor').then((val) => {
+      if (val != null) {
+        this._browserColor = val;
+      }
+    });
   }
 
   get notifications() {
@@ -30,6 +43,25 @@ export class SettingsPage implements OnInit {
   set notifications(value) {
     this._notifications = value;
     this.storageService.set('notifications', value.toString());
+  }
+
+  get useBrowser() {
+    return this._useBrowser;
+  }
+
+  set useBrowser(value) {
+    this._useBrowser = value;
+    this.storageService.set('useBrowser', value.toString());
+  }
+
+
+  get browserColor() {
+    return this._browserColor;
+  }
+
+  set browserColor(value) {
+    this._browserColor = value;
+    this.storageService.set('browserColor', value);
   }
 
 }
