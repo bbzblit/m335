@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonContent } from '@ionic/angular';
 import { RealtimeChannel, Subscription, User } from '@supabase/supabase-js';
@@ -47,7 +47,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     private fileSystem: FilesystemService,
     private clipboardService: ClipboardService,
     private happicsService: HapticsService,
-    private router: Router,
+    private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -64,6 +64,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         this.messages = data;
         this.finishedLoading = true;
+        this.scrollToBottom(0);
       }
     });
 
@@ -85,7 +86,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.syncUser();
       }
     });
-    this.messageSubscription$ = this.messageService.subscribeMessages(1, (payload) => this.messageChange(payload));
+    this.messageSubscription$ = this.messageService.subscribeMessages(this.currentChat?.id || 0, (payload) => this.messageChange(payload));
 
   }
 
@@ -205,11 +206,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.selectedMessage = undefined;
   }
 
-  scrollToBottom() {
+  scrollToBottom(duration: number = 300) {
     if (!this.content){
-      console.log("No eol");
       return
     }
-    this.content.scrollToBottom(300);
+    this.content.scrollToBottom(duration);
   }
 }
