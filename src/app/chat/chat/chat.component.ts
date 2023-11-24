@@ -143,6 +143,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   initSendPhoto() {
+    this.sendingImage = true;
+    this.scrollToBottom(0);
     this.cameraService.takePicture().then(({img, coords}) => {
       if (img) {
         this.sendPhoto(img, coords);
@@ -151,8 +153,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   sendPhoto(path: string, coords: any) {
-    this.sendingImage = true;
-    this.scrollToBottom(0);
     this.fileSystem.readFile(path).then((data) => {
       if (data) {
         this.messageService.sendImageMessage(this.currentChat?.id || 0, this.userId, data, coords).then(() => {
